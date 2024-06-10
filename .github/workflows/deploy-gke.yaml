@@ -76,8 +76,7 @@ jobs:
       run: (Get-Content applications\clouddemo\net4\deployment.yaml) -replace "CLOUDDEMO_IMAGE","${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" | Out-File -Encoding ASCII applications\clouddemo\net4\deployment.yaml
 
     - name: Build Docker image
-      run: docker build --tag "${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" applications/clouddemo/net4
-
+      run: docker build --tag "${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:${{ github.sha }}" applications/clouddemo/net4
     - name: Publish Docker image to Google Artifact Registry
       run: docker push "${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA"
 
