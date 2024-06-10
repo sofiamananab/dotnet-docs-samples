@@ -69,17 +69,17 @@ jobs:
     # Build the Docker image and push it to Artifact Registry
     #
     - name: Create image tag
-      run: echo "IMAGE_TAG=${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$env:GITHUB_SHA" >> $env:GITHUB_ENV
+      run: echo "IMAGE_TAG=${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" >> $GITHUB_ENV
 
     - name: Lock image version in deployment.yaml
       shell: pwsh
-      run: (Get-Content applications\clouddemo\net4\deployment.yaml) -replace "CLOUDDEMO_IMAGE","${{ env.IMAGE_TAG }}" | Out-File -Encoding ASCII applications\clouddemo\net4\deployment.yaml
+      run: (Get-Content applications\clouddemo\net4\deployment.yaml) -replace "CLOUDDEMO_IMAGE","${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" | Out-File -Encoding ASCII applications\clouddemo\net4\deployment.yaml
 
     - name: Build Docker image
-      run: docker build --tag "${{ env.IMAGE_TAG }}" applications/clouddemo/net4
+      run: docker build --tag "${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" applications/clouddemo/net4
 
     - name: Publish Docker image to Google Artifact Registry
-      run: docker push "${{ env.IMAGE_TAG }"
+      run: docker push "${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA"
 
     #
     # Deploy to GKE
