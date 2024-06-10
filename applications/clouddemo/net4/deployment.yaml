@@ -1,4 +1,4 @@
-﻿#
+#
 # Copyright 2020 Google LLC
 #
 # Licensed to the Apache Software Foundation (ASF) under one
@@ -22,9 +22,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: clouddemo-net4
+  name: clouddemo-sofi
   annotations:
     cloud.google.com/neg: '{"ingress": false}' # Disable NEG
+
 spec:
   ports:
   - port: 80
@@ -32,18 +33,18 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: clouddemo-net4
+    app: clouddemo-sofi
   type: NodePort
 
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: clouddemo-net4
+  name: clouddemo-sofi
 spec:
   defaultBackend:
     service:
-      name: clouddemo-net4
+      name: clouddemo-sofi
       port:
         number: 80
 
@@ -51,21 +52,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clouddemo-net4
+  name: clouddemo-sofi
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: clouddemo-net4
+      app: clouddemo-sofi
   template:
     metadata:
       labels:
-        app: clouddemo-net4
+        app: clouddemo-sofi
     spec:
       nodeSelector:
         kubernetes.io/os: windows
       containers:
-      - name: clouddemo-net4
+      - name: clouddemo-sofi
         image: CLOUDDEMO_IMAGE
         ports:
           - containerPort: 80
