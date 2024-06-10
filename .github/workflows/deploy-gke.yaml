@@ -9,7 +9,7 @@ env:
   PROJECT_ID: gke-poc-421401
   PROJECT_NUMBER: 300481085503
 
-  CLUSTER: clouddemo-windows
+  CLUSTER: clouddemo-windows2
   CLUSTER_ZONE: us-central1-a
 
   REPOSITORY: clouddemo
