@@ -45,7 +45,7 @@ spec:
       nodeSelector:
         kubernetes.io/os: windows
       containers:
-      - name: clouddemo-sofi
+        - name: clouddemo-sofi
         image: CLOUDDEMO_IMAGE
         ports:
           - containerPort: 80
