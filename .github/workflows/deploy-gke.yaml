@@ -15,7 +15,7 @@ env:
   REPOSITORY: clouddemo
   REPOSITORY_REGION: us-central1
 
-  IMAGE: clouddemo
+  IMAGE: clouddemo-sofi
 
 jobs:
   build:
