@@ -53,32 +53,10 @@ jobs:
     #
     # Build the .NET code
     #
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
-
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
-
-    - name: Restore NuGet packages
-      run: nuget restore applications/clouddemo/net4/CloudDemo.Mvc.sln
-
-    - name: Build solution
-      run: msbuild /t:Rebuild /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /nologo applications/clouddemo/net4/CloudDemo.Mvc.sln
 
     #
     # Build the Docker image and push it to Artifact Registry
     #
-    - name: Create image tag
-      run: echo "IMAGE_TAG=${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" >> $GITHUB_ENV
-
-    - name: Lock image version in deployment.yaml
-      shell: pwsh
-      run: (Get-Content applications\clouddemo\net4\deployment.yaml) -replace "CLOUDDEMO_IMAGE","${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" | Out-File -Encoding ASCII applications\clouddemo\net4\deployment.yaml
-
-    - name: Build Docker image
-      run: docker build --tag "${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:${{ github.sha }}" applications/clouddemo/net4
-    - name: Publish Docker image to Google Artifact Registry
-      run: docker push "${{ env.REPOSITORY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:${{ github.sha }}"
 
     #
     # Deploy to GKE
