@@ -16,6 +16,18 @@ spec:
   type: NodePort
 
 ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: clouddemo-sofi
+spec:
+  defaultBackend:
+    service:
+      name: clouddemo-sofi
+      port:
+        number: 80
+        
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
