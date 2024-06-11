@@ -34,7 +34,7 @@ spec:
         kubernetes.io/os: windows
       containers:
       - name: clouddemo-sofi
-        image: CLOUDDEMO_IMAGE
+        image: clouddemo-sofi
         ports:
           - containerPort: 80
         livenessProbe:      # Used by deployment controller
